@@ -4,8 +4,8 @@ from pyomo.environ import *
 # ----- PARAMS -----
 
 solver_name = 'scip'
-len_items = 100
-capacity = 10
+len_items = 20
+capacity = 20
 item_max_weight = 5
 
 display_solution = True
@@ -41,16 +41,23 @@ def check_weight4(model):
 
 def con(model, i):
     return model.x1[i] + model.x2[i] + model.x3[i] + model.x4[i] <= 1
+
 model.target = Objective(rule=calc_value, sense=minimize)
 model.wlimit1 = Constraint(rule=check_weight1)
 model.wlimit2 = Constraint(rule=check_weight2)
 model.wlimit3 = Constraint(rule=check_weight3)
 model.wlimit4 = Constraint(rule=check_weight4)
+
+model.con = list()
 for i in range(len(items)):
-    model.con = Constraint(rule=con(model, i))
+    model.con.append(Constraint(rule=con(model, i)))
+    
 opt = SolverFactory(solver_name)
 results = opt.solve(model, tee=True)
 #model.solutions.load_from(results)
 #print(model.solutions)
 #print(results)
-if display_solution: print(model.x.pprint())
+if display_solution: print(model.x1.pprint(),
+                           model.x2.pprint(),
+                           model.x3.pprint(),
+                           model.x4.pprint(), sep="\n")
