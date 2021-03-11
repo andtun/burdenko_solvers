@@ -4,8 +4,8 @@ from pyomo.environ import *
 # ----- PARAMS -----
 
 solver_name = 'scip'
-len_items = 10000
-capacity = 250000
+len_items = 10
+capacity = 250
 item_max_value = 100
 item_max_weight = 100
 
