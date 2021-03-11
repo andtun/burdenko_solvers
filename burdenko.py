@@ -118,6 +118,5 @@ for i in range(2): # we know there are two instances
     print("Results for", solved_name)
     model = model_map[this_action_handle]
     display(model)
-    print("1 done")
 
 
